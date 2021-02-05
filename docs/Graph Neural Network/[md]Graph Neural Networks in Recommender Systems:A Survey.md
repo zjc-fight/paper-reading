@@ -55,12 +55,12 @@ $$h_v^{(l+1)}=GRU(h_v^{(l)},n_v^{(l)})$$
 1. 推荐系统中的大部分数据含有图结构
 2. 图神经网络可以捕捉图结构信息，有效学习用户/物品表征
 
-![推荐系统中的图类型](../../pics/gnn/graphtypeinrs.png)
+![推荐系统中的图类型](../../assets/gnn/graphtypeinrs.png)
 
 # Categories of Graph Neural Networks based Recommendation
 本文根据推荐系统的类型以及使用的信息类型对图神经网络技术进行分类，如图
 
-![gnn分类](../../pics/gnn/GnnCategory.png)
+![gnn分类](../../assets/gnn/GnnCategory.png)
 
 
 分类方法基于两个事实:
@@ -68,8 +68,8 @@ $$h_v^{(l+1)}=GRU(h_v^{(l)},n_v^{(l)})$$
 2. General RS和Sequential RS背后的基本假设不一样
 <center>
 <figure>
-    <img src="../../pics/gnn/KeyNotations.png" width=250px height=300px />
-    <img src="../../pics/gnn/gnn.png" width=300px height=300px /> 
+    <img src="../../assets/gnn/KeyNotations.png" width=250px height=300px />
+    <img src="../../assets/gnn/gnn.png" width=300px height=300px /> 
 </figure>
 </center>
 
@@ -86,7 +86,7 @@ General RS基于用户历史的交互数据建模用户偏好，进而给用户�
 
 ### Overall framework
 
-![framework](../../pics/gnn/FrameworkOfGnn1.png)
+![framework](../../assets/gnn/FrameworkOfGnn1.png)
 
 这套方法的关键挑战是如何传递物品的信息到用户，传递用户的信息到物品。主要问题是以下四个方面
 1. 图构造。二部图包含用户节点，物品节点和用户和物品的交互（边）。考虑到计算资源问题，需要从邻居节点中采样有代表性的节点进行计算
@@ -94,7 +94,7 @@ General RS基于用户历史的交互数据建模用户偏好，进而给用户�
 3. 信息更新。如何根据聚合的信息更新中心节点的信息
 4. 节点表征。如何根据节点的信心输出最终的节点表征
 
-![algo1](../../pics/gnn/algo1.png)
+![algo1](../../assets/gnn/algo1.png)
 
 ### Representative methods
 
@@ -103,7 +103,7 @@ General RS基于用户历史的交互数据建模用户偏好，进而给用户�
 <br>GC-MC只考虑了一跳信息，没办法利用更多的图结构信息。并且忽略节点本身的信息，可能会忽略用户的偏好以及物品的特性。
 
 2. [STAR-GCN](https://arxiv.org/abs/1905.13129)堆叠多个完全相同的GCN块，例如GC-MC。之所以堆叠多个GCN块而不是直接使用多层GCN的原因在于多层GCN容易导致over-smoothness问题。在每个块之间引入reconstruction机制将聚合的表征恢复节点的初始输入，然后reconstruction的表征又作为下一个块的输入，网络结构如
-![starGcn](../../pics/gnn/starGcn.png)
+![starGcn](../../assets/gnn/starGcn.png)
 该方案考虑到了label泄漏的问题，在训练过程成随机mask一些节点，并增加了这些节点的reconstruction loss。
 
 3. [NGCF](https://arxiv.org/abs/1905.08108)利用多层GNN网络来捕捉高阶交互信息，每个物品节点对中心节点的信息贡献不同，最终concat多层表征来表示节点的embedding
@@ -113,7 +113,7 @@ $$h_u^{(I)}=h_u^{(0)}||\cdots||h_u^{(L)}$$
 $$h_i^{(U)}=h_i^{(o)}||\cdots ||h_i^{(L)}$$
 $$\hat {y}_{NGCF}(u,i)=h_u^I\top h_i^U$$
 
-4. [PinSage](https://arxiv.org/abs/1806.01973)结合了随机游走和图卷积操作来学习节点embedding。和其他从整个图中学习不同，该方法设计了随机游走算法，随机采样了固定个数的临界点（不只是一阶）。每个邻节点有一个权重控制相对于中心节点的重要程度，为了训练稳定，每个节点embedding会经过标准化之后在进行下一次计算。![pinsage](../../pics/gnn/pinSage.png)![convolve](../../pics/gnn/algo2.png)
+4. [PinSage](https://arxiv.org/abs/1806.01973)结合了随机游走和图卷积操作来学习节点embedding。和其他从整个图中学习不同，该方法设计了随机游走算法，随机采样了固定个数的临界点（不只是一阶）。每个邻节点有一个权重控制相对于中心节点的重要程度，为了训练稳定，每个节点embedding会经过标准化之后在进行下一次计算。![pinsage](../../assets/gnn/pinSage.png)![convolve](../../assets/gnn/algo2.png)
 节点的最终输出为
 $$h_u^I=G_2\cdot ReLU(G_1h_u^{(L)}+g)$$
 
@@ -135,8 +135,8 @@ $$h_u^I=G_2\cdot ReLU(G_1h_u^{(L)}+g)$$
 现有工作利用用户间的交互行为和关系在推荐系统汇中引入社交影响，提高推荐系统的表现。社交图有两个特点：图中的边表示用户间的关系，这种关系有强有弱；从社交图中学习的知识对用户-物品交互是一种补充，可以增强用户表征。对应这两个特点，引入社交网络有以下两个问题需要解决：
 1. 所有朋友的影响都是相等的吗？如果不是，怎么区分不同朋友的影响呢？
 2. 用户和朋友间有社交关系，用户和物品间有交互关系，如何组合社交关系和交互关系呢？有以下两种方式
-![frameworkOfGnn](../../pics/gnn/FrameworkOfGnn2.png)
-![algo3](../../pics/gnn/algo3.png)
+![frameworkOfGnn](../../assets/gnn/FrameworkOfGnn2.png)
+![algo3](../../assets/gnn/algo3.png)
 
 ### Representative methods
 1. [DiffNet](https://arxiv.org/pdf/1904.10322.pdf)利用用户社交关系以及用户行为来建模用户偏好，使用graphSage算法框架从社交图中提取信息，利用mean-pooling聚合朋友的表征作为用户在社交空间的embedding，利用mean-pooling聚合物品的表征作为用户在物品空间的embedding，最后的预估分数为
@@ -165,7 +165,7 @@ $$h_u=\sigma(W_l\cdot c_{l-1}+b_l)$$
 1. **图简化**。考虑到知识图谱复杂的图结构，如何简化图结构以实现高效的信息传递。
 2. **多种关系的传播**。在知识图谱中物品间传递信息时，需要考虑到物品以及物品间的关系类别。
 3. **用户信息整合**。在推荐系统中利用知识图谱信息，有必要将用户角色也融合进知识图谱结构中。
-![frameworkofGnn3](../../pics/gnn/FrameworkOfGnn3.png)
+![frameworkofGnn3](../../assets/gnn/FrameworkOfGnn3.png)
 
 ### Representative methods
 
@@ -203,14 +203,14 @@ $$q_{l,k}^t=\frac {exp(\alpha_{l,k}^t)}{\sum_{e_j \in N_l}exp(\alpha_{l,j}^t)}$$
 现有的大部分方法主要使用循环网络来捕捉序列化信息，例如LSTM、GRU等，由于transformer在序列建模方面的突出能力，一些方法利用self-attention来捕捉用户的动态偏好。最近有许多工作通过将用户行为序列建模成图，然后使用GNN来增强行为预测。
 
 ### Overall framework
-![frameworkOfGnn4](../../pics/gnn/FrameworkOfGnn3.png)
+![frameworkOfGnn4](../../assets/gnn/FrameworkOfGnn3.png)
 
 在序列推荐系统中应用GNN需要解决以下问题：
 1. 图构造。在序列推荐系统中应用GNN，首先需要将序列化的数据构造成序列图，图的好坏决定了GNN模型效果的好坏
 2. 信息传播。构造好序列图之后，需要设计一种有效的信息传播机制来捕捉transition patterns
 3. 序列偏好。为了获得用户的临时偏好，需要整合一个序列中的表征信息。
 
-![algo4](../../pics/gnn/algo4.png)
+![algo4](../../assets/gnn/algo4.png)
 
 ### Representative methods
 1. [SR-GNN](https://arxiv.org/abs/1811.00855)为用户的每一个会话构造了一个有向图，两个连续点击的物品之间构造一条有向边，该方法定义了两个邻接矩阵$$A_s^{out}$$,$$A_s^{in}$$分别表示归一化的连接情况，在信息传递的过程中，中心节点的前序点击物品和后续点击物品的信息传递到中心节点<center>$a_{s,j}^{(l+1)}=[A_{s,j:}^{in}I_s^{(l)}H1,A_{s,j:}^{out}I_s^{(l)}H_2]+b^{(l)}$</center>

@@ -12,17 +12,17 @@ Normalization方法是每类特征共享一个embedding，Discretization是将�
 2. **Normalization**：特征共享一个embedding，特征取值和embedding的乘积作为最终embedding
 3. **Discretization**:将特征取值离散化，分为多个桶，然后为每个桶分配一个embedding
 
-![figure1](../../pics/ctr/AutoFis-figure1.png)
+![figure1](../../assets/ctr/AutoFis-figure1.png)
 
 **Discretization**方法的限制：TPP（Two-Phase Problem）、SBD（Similar value But Dis-similar embedding）、DBS(Dis-similar value But Same embedding)
 
-![figure2](../../pics/ctr/AutoFis-figure2.png)
+![figure2](../../assets/ctr/AutoFis-figure2.png)
 
 
 # AutoDis 
 
 基于现有方法的缺点，本文提出了AutoDis能够end-to-end的学习numerical特征的embedding，能直接应用在现有的深度模型当中。
-![figure3](../../pics/ctr/AutoFis-figure3.png)
+![figure3](../../assets/ctr/AutoFis-figure3.png)
 
 AutoDis为每个numerical特征(如age,gender等)设计了一组 meta embedding $ME_{n_j} \in R^{H_j \times d}$，然后利用一个参数向量$w_{n_j} \in R^{H_j}$产生每个特征取值$x_{n_j}$对应$ME_{n_j}$的score
 $$\hat x_{n_j}^h=w_{n_j}^h\cdot x_{n_j}$$
@@ -30,7 +30,7 @@ $$h \in [1,H_j]$$
 $$p_{n_j}^h=\frac {e^{\frac 1\tau \hat x_{n_j}^h }}{\sum_{l=1}^{H_j}e^{\frac 1 \tau \hat x_{n_j}^l}}$$
 然后根据计算出来的分数p聚合ME，例如Max-Pooling, Top-K-Sum, Weighted-Average等
 
-![figure4](../../pics/ctr/AutoFis-figure4.png)
+![figure4](../../assets/ctr/AutoFis-figure4.png)
 
 # Experiments
-![figure5](../../pics/ctr/AutoFis-figure5.png)
+![figure5](../../assets/ctr/AutoFis-figure5.png)
