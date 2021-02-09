@@ -15,3 +15,6 @@ Paper reading list in recommender system, with special emphasis on advertisement
 
 ## Graph Neural Network
 - [Graph Neural Networks in Recommender Systems: A Survey](https://arxiv.org/pdf/2011.02260.pdf)
+
+## Optimization Method
+- 在线最优化求解
